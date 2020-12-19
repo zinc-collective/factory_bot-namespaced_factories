@@ -21,8 +21,7 @@ module FactoryBot
 
       def factory(name, options = {}, &block)
         __dsl__.factory("#{prefix}#{name}".to_sym, options.merge(class: "#{namespace}::#{name.to_s.classify}"), &block)
-        return unless register_without_namespace?(name)
-        __dsl__.factory(name.to_sym, options.merge(class: "#{namespace}::#{name.to_s.classify}"), &block)
+        register_without_namespace(name, options, &block)
       end
 
       private
@@ -35,8 +34,16 @@ module FactoryBot
         !require_prefix? && !Internal.factories.registered?(name)
       end
 
+      def register_without_namespace(name, options = {}, &block)
+        return unless register_without_namespace?(name)
+
+        __dsl__.factory(name.to_sym, options.merge(class: "#{namespace}::#{name.to_s.classify}"), &block)
+      rescue FactoryBot::DuplicateDefinitionError => _e
+        # Not sure why the Internal.factories.registered? isn't preventing this...
+      end
+
       def __dsl__
-        @dsl ||= FactoryBot::Syntax::Default::DSL.new
+        @__dsl__ ||= FactoryBot::Syntax::Default::DSL.new
       end
     end
   end
