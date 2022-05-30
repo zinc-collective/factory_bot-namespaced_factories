@@ -5,6 +5,7 @@ Gem::Specification.new do |spec|
   spec.version       = FactoryBot::NamespacedFactories::VERSION
   spec.authors       = ["Zee"]
   spec.email         = ["50284+zspencer@users.noreply.github.com"]
+  spec.license       = "AGPL-3.0-or-later"
 
   spec.summary       = %q{Share factories between gems and domains in more complex monoliths.}
   spec.description   = %q{Share factories between gems and domains in more complex monoliths.}
