@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in factory_bot_namespaced_factories.gemspec
 gemspec
 
 gem "rake", "~> 12.0"

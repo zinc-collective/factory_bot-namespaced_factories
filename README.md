@@ -1,28 +1,58 @@
 # FactoryBotNamespacedFactories
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/factory_bot_namespaced_factories`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Affordances for applying Domain Driven design while using FactoryBot
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'factory_bot_namespaced_factories'
+gem 'factory_bot-namespaced_factories'
 ```
 
 And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install factory_bot_namespaced_factories
-
+```shell
+$ bundle install
+```
 ## Usage
 
-TODO: Write usage instructions here
+See:
+
+- https://github.com/thoughtbot/factory_bot/issues/199
+- https://github.com/thoughtbot/factory_bot/commit/652818bd1701db67ea03cd062c8259cd7fb37807
+
+There are two main use-cases for Namespaced Factories:
+
+1. Sharing Factories from an Engine or Gem
+2. Decomposing an application using domain driven design
+
+Example User Factory
+
+```ruby
+# spec/factories/categories.rb
+FactoryBot.define do
+  factory :category do
+    name { "Classics" }
+  end
+end
+
+# movies/spec/factories/categories.rb
+FactoryBot.define do
+  with_namespace(:Movies) do
+    factory :category do
+      name { "Emmy Winners" }
+    end
+  end
+end
+
+# movies/spec/category_spec.rb
+category = FactoryBot.build(:category)
+expect(category).to be_kind_of(Movies::Category)
+
+# spec/category_spec.rb
+category = FactoryBot.build(:category)
+expect(category).to be_kind_of(Category)
+```
 
 ## Development
 
@@ -32,9 +62,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/factory_bot_namespaced_factories. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/factory_bot_namespaced_factories/blob/master/CODE_OF_CONDUCT.md).
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/zinc-collective/factory_bot-namespaced_factories. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/zinc-collective/factory_bot-namespaced_factories/blob/main/CODE_OF_CONDUCT.md).
 
 ## Code of Conduct
 
-Everyone interacting in the FactoryBotNamespacedFactories project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/factory_bot_namespaced_factories/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the FactoryBotNamespacedFactories project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/zinc-collective/factory_bot-namespaced_factories/blob/main/CODE_OF_CONDUCT.md).
