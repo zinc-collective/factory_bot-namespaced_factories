@@ -1,4 +1,4 @@
-# FactoryBotNamespacedFactories
+# FactoryBot::NamespacedFactories
 
 Affordances for applying Domain Driven design while using FactoryBot
 
